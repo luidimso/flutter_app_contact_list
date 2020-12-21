@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_contact_list/controllers/contact.dart';
 
@@ -38,8 +40,56 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(10),
         itemCount: contacts.length,
         itemBuilder: (context, index) {
-
+          return _contactCardBuilder(context, index);
         },
+      ),
+    );
+  }
+
+  Widget _contactCardBuilder(BuildContext context, int index) {
+    return GestureDetector(
+      child: Card(
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: contacts[index].image != null ? FileImage(File(contacts[index].image)) : AssetImage("assets/luigi.png")
+                  )
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(contacts[index].name ?? "",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    Text(contacts[index].email ?? "",
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    ),
+                    Text(contacts[index].phone ?? "",
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
