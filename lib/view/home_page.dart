@@ -9,26 +9,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   ContactController contactController = ContactController();
+  List<Contact> contacts = List();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Contact contact = Contact();
-
-    contact.name = "Tiago Corrêa";
-    contact.email = "tiago@teste.com";
-    contact.phone = "999999999";
-    contact.image = "";
-
-    contactController.saveContact(contact);
-
-    contactController.getAll().then((value) => print(value));
+    setState(() {
+      contactController.getAll().then((value) => contacts = value);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Contacts"),
+        backgroundColor: Colors.red,
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      floatingActionButton:  FloatingActionButton(
+        onPressed: (){},
+        child: Icon(Icons.add),
+        backgroundColor: Colors.red,
+      ),
+      body: ListView.builder(
+        padding: EdgeInsets.all(10),
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
+
+        },
+      ),
+    );
   }
 }
