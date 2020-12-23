@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_contact_list/controllers/contact.dart';
+import 'package:flutter_app_contact_list/view/contact_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,9 +18,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      contactController.getAll().then((value) => contacts = value);
-    });
+    _getAllContacts();
   }
 
   @override
@@ -32,7 +31,9 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       floatingActionButton:  FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          _onContactPage();
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
       ),
@@ -48,6 +49,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget _contactCardBuilder(BuildContext context, int index) {
     return GestureDetector(
+      onTap: () {
+        _onContactPage(contact: contacts[index]);
+      },
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(10),
@@ -92,5 +96,26 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void _getAllContacts() {
+    setState(() {
+      contactController.getAll().then((value) => contacts = value);
+    });
+  }
+
+  void _onContactPage({Contact contact}) async {
+    final editedContact = await Navigator.push(context, MaterialPageRoute(
+        builder: (context) => ContactPage(contact: contact)
+    ));
+
+    if(editedContact != null) {
+      if(contact != null) {
+        await contactController.updateContact(editedContact);
+      } else {
+        await contactController.saveContact(editedContact);
+      }
+      _getAllContacts();
+    }
   }
 }
