@@ -81,7 +81,8 @@ class _ContactPageState extends State<ContactPage> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: _contact.image != null ? FileImage(File(_contact.image)) : AssetImage("assets/luigi.jpg")
+                          image: _contact.image != null ? FileImage(File(_contact.image)) : AssetImage("assets/luigi.jpg"),
+                          fit: BoxFit.cover
                         )
                     ),
                   ),

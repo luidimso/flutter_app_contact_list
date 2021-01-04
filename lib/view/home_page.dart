@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: contacts[index].image != null ? FileImage(File(contacts[index].image)) : AssetImage("assets/luigi.jpg")
+                    image: contacts[index].image != null ? FileImage(File(contacts[index].image)) : AssetImage("assets/luigi.jpg"),
+                    fit: BoxFit.cover
                   )
                 ),
               ),
