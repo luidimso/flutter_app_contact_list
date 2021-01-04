@@ -5,6 +5,8 @@ import 'package:flutter_app_contact_list/controllers/contact.dart';
 import 'package:flutter_app_contact_list/view/contact_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum SortOptions {az, za}
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -29,6 +31,21 @@ class _HomePageState extends State<HomePage> {
         title: Text("Contacts"),
         backgroundColor: Colors.red,
         centerTitle: true,
+        actions: <Widget>[
+          PopupMenuButton<SortOptions>(
+            itemBuilder: (context) => <PopupMenuEntry<SortOptions>>[
+              const PopupMenuItem<SortOptions>(
+                child: Text("Sort A-Z"),
+                value: SortOptions.az,
+              ),
+              const PopupMenuItem<SortOptions>(
+                child: Text("Sort Z-A"),
+                value: SortOptions.za,
+              )
+            ],
+            onSelected: _sortList,
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       floatingActionButton:  FloatingActionButton(
@@ -187,6 +204,25 @@ class _HomePageState extends State<HomePage> {
         await contactController.saveContact(editedContact);
       }
       _getAllContacts();
+    }
+  }
+
+  void _sortList(SortOptions result) {
+    switch(result) {
+      case SortOptions.az:
+        setState(() {
+          contacts.sort((a, b) {
+            return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+          });
+        });
+        break;
+      case SortOptions.za:
+        setState(() {
+          contacts.sort((a, b) {
+            return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+          });
+        });
+        break;
     }
   }
 }
