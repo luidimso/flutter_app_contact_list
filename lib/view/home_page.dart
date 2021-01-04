@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   Widget _contactCardBuilder(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        _onContactPage(contact: contacts[index]);
+        _showOptions(context, index);
       },
       child: Card(
         child: Padding(
@@ -95,6 +95,73 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showOptions(BuildContext context, int index) {
+    showBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+              onClosing: (){},
+              builder: (context) {
+                return Container(
+                  padding: EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: FlatButton(
+                              onPressed: (){},
+                              child: Text("Call",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20
+                                ),
+                              )
+                          ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: FlatButton(
+                            onPressed: (){
+                              Navigator.pop(context);
+                              _onContactPage(contact: contacts[index]);
+                            },
+                            child: Text("Edit",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20
+                              ),
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: FlatButton(
+                            onPressed: (){
+                              contactController.deleteContact(contacts[index].id);
+                              setState(() {
+                                contacts.removeAt(index);
+                                Navigator.pop(context);
+                              });
+                            },
+                            child: Text("Delete",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20
+                              ),
+                            )
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+          );
+        }
     );
   }
 
