@@ -100,7 +100,7 @@ class Contact {
     name = map[nameColumn];
     email = map[emailColumn];
     phone = map[phoneColumn];
-    image = map[image];
+    image = map[imageColumn];
   }
 
   Map toMap() {
